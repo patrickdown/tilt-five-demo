@@ -1,0 +1,30 @@
+# Godot 4+ specific ignores
+.godot/
+build
+.sconsign*.dblite
+.vscode
+.vs
+
+*.sln
+*.csproj
+
+# Binaries
+*.o
+*.os
+*.so
+*.dll
+*.obj
+*.bc
+*.pyc
+*.dblite
+*.pdb
+*.lib
+*.config
+*.creator
+*.creator.user
+*.files
+*.includes
+*.idb
+*.exp
+
+!addons/tiltfive/bin/*

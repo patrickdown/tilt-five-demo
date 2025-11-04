@@ -1,0 +1,93 @@
+[gd_scene load_steps=18 format=3 uid="uid://dl3mv76qkuscf"]
+
+[ext_resource type="PackedScene" uid="uid://je0clrdu7o76" path="res://addons/tiltfive/scenes/T5XRRig.tscn" id="1_mer1r"]
+[ext_resource type="Script" path="res://scenes/ExampleXRRig.gd" id="2_8v3h1"]
+[ext_resource type="Script" path="res://scenes/XROrigin3D.gd" id="2_ovq7h"]
+[ext_resource type="PackedScene" uid="uid://b1cd3jc00rhal" path="res://addons/tiltfive/assets/T5GlassesModel.tscn" id="3_dh820"]
+[ext_resource type="Script" path="res://scenes/pointer_control.gd" id="4_bhwvx"]
+[ext_resource type="Script" path="res://scenes/T5Pointer.gd" id="5_1korn"]
+[ext_resource type="PackedScene" uid="uid://fipea8dbocg4" path="res://addons/tiltfive/assets/T5WandModel.tscn" id="6_mg3yb"]
+[ext_resource type="PackedScene" uid="uid://dnx42xctfl3mx" path="res://scenes/Controls.tscn" id="7_p34a2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cgatm"]
+albedo_color = Color(0.0823529, 0.243137, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vjp8o"]
+albedo_color = Color(0.921569, 0.0941176, 0.172549, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gbwc2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iuako"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_70r0u"]
+albedo_color = Color(0, 1, 0.215686, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dji1h"]
+albedo_color = Color(0.176471, 0.14902, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_qm7rn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0arwu"]
+albedo_color = Color(0.862745, 0, 0.0235294, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_aaxuw"]
+
+[node name="T5Glasses" instance=ExtResource("1_mer1r")]
+script = ExtResource("2_8v3h1")
+
+[node name="Origin" parent="." index="0"]
+script = ExtResource("2_ovq7h")
+
+[node name="T5-glasses" parent="Origin/Camera" index="0" instance=ExtResource("3_dh820")]
+transform = Transform3D(16, 0, 0, 0, 16, 0, 0, 0, 16, 0, 0, 0)
+
+[node name="Wand_1" parent="Origin" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+script = ExtResource("4_bhwvx")
+selected_mat = SubResource("StandardMaterial3D_cgatm")
+unselected_mat = SubResource("StandardMaterial3D_vjp8o")
+
+[node name="RayCast3D" type="RayCast3D" parent="Origin/Wand_1" index="0"]
+target_position = Vector3(0, 0, -100)
+script = ExtResource("5_1korn")
+
+[node name="T5-wand" parent="Origin/Wand_1" index="1" instance=ExtResource("6_mg3yb")]
+transform = Transform3D(16, 0, 0, 0, 16, 0, 0, 0, 16, 0, 0, 0)
+
+[node name="Controls" parent="Origin/Wand_1" index="2" instance=ExtResource("7_p34a2")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0.583, -0.002, 0.01)
+
+[node name="Center" type="MeshInstance3D" parent="Origin/Wand_1" index="3"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+mesh = SubResource("BoxMesh_gbwc2")
+surface_material_override/0 = SubResource("StandardMaterial3D_iuako")
+
+[node name="Positive Y" type="MeshInstance3D" parent="Origin/Wand_1" index="4"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0.2, 0)
+mesh = SubResource("BoxMesh_gbwc2")
+surface_material_override/0 = SubResource("StandardMaterial3D_70r0u")
+
+[node name="Positive Z" type="MeshInstance3D" parent="Origin/Wand_1" index="5"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0.2)
+mesh = SubResource("BoxMesh_gbwc2")
+surface_material_override/0 = SubResource("StandardMaterial3D_dji1h")
+
+[node name="Positive X" type="MeshInstance3D" parent="Origin/Wand_1" index="6"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.2, 0, 0)
+mesh = SubResource("BoxMesh_qm7rn")
+surface_material_override/0 = SubResource("StandardMaterial3D_0arwu")
+
+[node name="OriginBased" type="MeshInstance3D" parent="Origin" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.77558, 0)
+mesh = SubResource("BoxMesh_aaxuw")
+surface_material_override/0 = SubResource("StandardMaterial3D_iuako")
+
+[node name="Pivot" type="Node3D" parent="Origin" index="3"]
+
+[node name="GlassesName" type="Label3D" parent="Origin/Pivot" index="0"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 4.52651)
+pixel_size = 0.01
+text = "Name"
+
+[connection signal="button_pressed" from="Origin/Wand_1" to="Origin/Wand_1" method="_on_button_pressed"]
+[connection signal="button_released" from="Origin/Wand_1" to="Origin/Wand_1" method="_on_button_released"]
